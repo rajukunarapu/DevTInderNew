@@ -1,11 +1,13 @@
 const express = require('express');
-const { signUp, logIn, logOut } = require('../controllers/authController')
+const { signUpOtp, signupOtpVerify, logInOtp, logInOtpVerify, logOut } = require('../controllers/authController')
 
 
 const router = express.Router()
 
-router.post('/signup', signUp)
-router.post('/login', logIn)
+router.post('/signup', signUpOtp)
+router.post('/signup/otp-verify', signupOtpVerify)
+router.post('/login', logInOtp)
+router.post('/login/otp-verify', logInOtpVerify)
 router.get('/logout', logOut)
 
 

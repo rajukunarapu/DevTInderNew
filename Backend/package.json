@@ -22,6 +22,7 @@
     "express": "^4.21.2",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.10.1",
+    "redis": "^4.7.0",
     "routes": "file:",
     "twilio": "^5.4.5",
     "validator": "^13.12.0"

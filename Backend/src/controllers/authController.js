@@ -1,49 +1,64 @@
 const userModel = require("../models/userModel");
-const { generatingUserData } = require('../utlis/validation')
-const validator = require("validator");
-const twilio = require('twilio')
+const otpModel = require("../models/otpModel");
+const { generateOtp, verifyOtp } = require("../utlis/otpService");
 
 // sign-up request handler
-exports.signUp = async (req, res) => {
+exports.signUpOtp = async (req, res) => {
     try {
-        const { emailId, mobileNumber } = req.body;
-
-        // storing the data based on either email or mobilenumber login
-        const userData = generatingUserData(emailId, mobileNumber)
-
-        const user = new userModel(userData);
-        await user.save();
-        const token = await user.generateToken() //schema method
-
-        const twilioClient = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
-        const otp = Math.floor(100000 + Math.random() * 900000).toString()
-        twilioClient.messages.create({
-            body: `Your OTP is : ${otp}. It will expire in 5 minutes. `,
-            from: process.env.TWILIO_MOBILE_NUMBER,
-            to: mobileNumber
-        })
-
-        res
-            .cookie("token", token, { expires: new Date(Date.now() + 8 * 3600000) })
-            .json({ message: "signUp successfull" });
+        const { mobileNumber } = req.body;
+        if (!mobileNumber) {
+            return res.status(400).json({ message: "Phone number cannot be empty" });
+        }
+        await generateOtp(mobileNumber);
+        res.json({ message: "Otp sent successfully" });
     } catch (err) {
         res.status(400).json({ message: "ERROR :" + err.message });
     }
 };
 
-// sign-in request handler
-exports.logIn = async (req, res) => {
+exports.signupOtpVerify = async (req, res) => {
     try {
-        const { emailId, mobileNumber } = req.body;
-
-        // storing the data based on either email or mobilenumber login
-        const userData = generatingUserData(emailId, mobileNumber)
-
-        const user = await userModel.findOne(userData)
-        const token = await user.generateToken()
+        const { mobileNumber } = req.body;
+        const otp_id = await verifyOtp(req);
+        const user = new userModel({ mobileNumber });
+        await user.save();
+        const token = await user.generateToken();
+        await otpModel.findByIdAndDelete(otp_id);
         res
             .cookie("token", token, { expires: new Date(Date.now() + 8 * 3600000) })
-            .json({ message: "Login successfull" });
+            .json({ message: "OTP verified successfully" });
+    } catch (err) {
+        res.status(400).json({ message: "Error :" + err.message });
+    }
+};
+
+// sign-in request handler
+exports.logInOtp = async (req, res) => {
+    try {
+        const { mobileNumber } = req.body;
+        if (!mobileNumber) {
+            return res.status(400).json({ message: "mobile number cannot be empty" });
+        }
+        await generateOtp(mobileNumber);
+        res.json({ message: "OTP sent successfully" });
+    } catch (err) {
+        res.status(400).json({ message: "ERROR :" + err.message });
+    }
+};
+
+exports.logInOtpVerify = async (req, res) => {
+    try {
+        const { mobileNumber } = req.body;
+        const otp_id = await verifyOtp(req);
+        const user = await userModel.findOne({ mobileNumber });
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        const token = await user.generateToken();
+        await otpModel.findByIdAndDelete(otp_id);
+        res
+            .cookie("token", token, { expires: new Date(Date.now() + 8 * 3600000) })
+            .json({ message: "OTP verified successfully" });
     } catch (err) {
         res.status(400).json({ message: "ERROR :" + err.message });
     }
