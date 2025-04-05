@@ -13,11 +13,7 @@ import backgroundImage from "../assets/Images/devTinder_background.webp";
 import Footer from "./Footer";
 import SignUp from "./SignUp";
 
-
-
-
 const Home = () => {
-
   const boxes = [
     {
       id: 1,
@@ -55,13 +51,12 @@ const Home = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setIndex((prevIndex) => (prevIndex + 3) % (boxes.length));
+      setIndex((prevIndex) => (prevIndex + 3) % boxes.length);
     }, 5000);
     return () => clearInterval(interval);
-  },[boxes.length]);
+  }, [boxes.length]);
 
-  const [signUpVisble, setSignUpVisble] = useState(false)
-  
+  const [signUpVisble, setSignUpVisble] = useState(false);
 
   return (
     <>
@@ -75,7 +70,8 @@ const Home = () => {
           sx={{
             height: "100vh",
             width: "100vw",
-            position: "relative",
+            position:'relative',
+            zIndex:-1,
             backgroundAttachment: "fixed !important",
             backgroundPositionX: "50% !important",
             backgroundPositionY: "50% !important",
@@ -84,9 +80,11 @@ const Home = () => {
             backgroundColor: "rgba(0, 0, 0, 0)",
             color: "rgb(33, 38, 46)",
             backgroundImage: `linear-gradient(to top,transparent,transparent,transparent, rgba(0, 0, 0, 0.7)), url(${backgroundImage})`,
-            // filter: "brightness(100%)",
+            filter: "brightness(40%)",
           }}
-        >
+        ></Stack>
+
+        <Stack sx={{position:'absolute', left:0, top:0, width:'100%', height:'100%', zIndex:1}} >
           <AppBar
             position="static"
             sx={{
@@ -191,15 +189,13 @@ const Home = () => {
                   fontWeight: "bolder",
                   textTransform: "capitalize",
                 }}
-                onClick={()=>setSignUpVisble((prev)=>!prev)}
+                onClick={() => setSignUpVisble((prev) => !prev)}
               >
                 Log in
               </Button>
             </Toolbar>
           </AppBar>
-          {
-            signUpVisble && <SignUp setSignUpVisible={setSignUpVisble} />
-          }
+          {signUpVisble && <SignUp setSignUpVisible={setSignUpVisble} />}
 
           <Stack
             direction="column"
@@ -213,7 +209,7 @@ const Home = () => {
 
             <Button
               variant="contained"
-              onClick={()=>setSignUpVisble((prev)=>!prev)}
+              onClick={() => setSignUpVisble((prev) => !prev)}
               sx={{
                 textTransform: "capitalize",
                 borderRadius: 10,
@@ -238,13 +234,20 @@ const Home = () => {
           </Typography>
         </Stack>
 
+        {/* section-2 */}
+
         <Stack
           direction={"column"}
           sx={{
             p: "32px 82px 32px",
           }}
         >
-          <Stack direction={"row"} spacing={2} alignItems={"center"} id='box-stack' >
+          <Stack
+            direction={"row"}
+            spacing={2}
+            alignItems={"center"}
+            id="box-stack"
+          >
             {boxes.slice(index, index + 3).map((box) => (
               <Box
                 key={box.id}
@@ -254,7 +257,7 @@ const Home = () => {
                   border: "1px solid lightgray",
                   borderRadius: 2,
                   p: 3,
-                  boxShadow:'0 0 1px 0 gray',
+                  boxShadow: "0 0 1px 0 gray",
                 }}
               >
                 <Typography variant="body1" fontWeight={"bold"} color="black">
@@ -270,9 +273,7 @@ const Home = () => {
             ))}
           </Stack>
 
-          {/* footer */}
-          <Footer/>
-
+          <Footer />
         </Stack>
       </Box>
     </>
