@@ -1,0 +1,15 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+@keyframes slideTrain {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-2350px);
+    }
+}
