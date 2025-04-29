@@ -30,7 +30,7 @@ const HomePage = () => {
           width:'100vw',
           height:'100vh',
           backgroundColor:'black',
-          position:'relative'
+          position:'relative',
         }}
       >
         <SidebarContent Name={'Akshay'} />

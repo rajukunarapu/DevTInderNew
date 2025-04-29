@@ -5,6 +5,7 @@ import {
   EmojiPeople,
   Favorite,
   WavingHand,
+  Close
 } from "@mui/icons-material";
 import {
   Button,
@@ -16,10 +17,11 @@ import {
   DialogTitle,
   Grid2,
   Typography,
+  IconButton
 } from "@mui/material";
 import React from "react";
 
-const RelationshipOptions = ({ open, handleColse, handleValue, value }) => {
+const RelationshipOptions = ({ open, handleClose, handleValue, value }) => {
   const typeOfRelation = [
     {
       id: 1,
@@ -66,6 +68,13 @@ const RelationshipOptions = ({ open, handleColse, handleValue, value }) => {
           },
         }}
       >
+        <IconButton
+          sx={{ position: "absolute", right: "10px", top: "10px",'&:hover':{backgroundColor:'#80808080'}}}
+          onClick={() => handleClose(false)}
+        >
+          <Close sx={{ color: "white" }} />
+        </IconButton>
+
         <DialogTitle
           variant="h5"
           fontWeight={"bold"}
@@ -136,7 +145,7 @@ const RelationshipOptions = ({ open, handleColse, handleValue, value }) => {
           variant="outlined"
           onClick={() => {
             if (value.length !== 0) {
-              handleColse(false);
+              handleClose(false);
             }
           }}
           sx={{

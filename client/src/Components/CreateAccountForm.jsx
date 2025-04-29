@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import RelationshipOptions from "./RelationshipOptions";
+import InterestsBox from "./InterestsBox";
 
 const CreateAccountForm = () => {
 
@@ -55,6 +56,11 @@ const CreateAccountForm = () => {
   // For relationShip type
   const [typeOfRelationValue, settypeOfRelationValue] = useState([]);
 
+  //For Interest Dialog box
+  const [openInterestDialog, setOpenInterestDialog] = useState(false)
+  // Interest state variable
+  const [interestValue, setInterestValue] = useState([])
+
   //For Debugging
   console.log({firstName})
   console.log({lastName})
@@ -62,6 +68,7 @@ const CreateAccountForm = () => {
   console.log({birthdayDate})
   console.log({interestedVariable})
   console.log({typeOfRelationValue})
+  console.log({interestValue})
 
   return (
     <>
@@ -291,12 +298,13 @@ const CreateAccountForm = () => {
           Optional
         </Divider>
 
-        <Typography variant="body1" fontWeight={"bold"} color="white" mt={10}>
+        <Typography variant="body1" fontWeight={"bold"} color="white" mt={4}>
           Interests
         </Typography>
         <Button
           variant="outlined"
           startIcon={<Add />}
+          onClick={()=>setOpenInterestDialog(true)}
           sx={{
             textTransform: "capitalize",
             fontWeight: "bold",
@@ -304,30 +312,10 @@ const CreateAccountForm = () => {
             borderRadius: 5,
             color: "white",
             border: "3px solid #80808080",
-            mt: 2,
+            mt: 2
           }}
         >
           Add Interests
-        </Button>
-
-        <Typography variant="body1" fontWeight={"bold"} color="white" mt={2}>
-          SEXUAL ORIENTATION
-        </Typography>
-        <Button
-          variant="outlined"
-          startIcon={<Add />}
-          sx={{
-            textTransform: "capitalize",
-            fontWeight: "bold",
-            width: 250,
-            borderRadius: 5,
-            color: "white",
-            border: "3px solid #80808080",
-            mt: 2,
-            mb: 10,
-          }}
-        >
-          Add sexual orientation
         </Button>
 
         <Box
@@ -349,6 +337,7 @@ const CreateAccountForm = () => {
               color: "lightgray",
               border: "none",
               backgroundColor: "#80808080",
+              mt:6
             }}
           >
             Continue
@@ -358,11 +347,15 @@ const CreateAccountForm = () => {
         {openLookingForDialog && (
           <RelationshipOptions
             open={setopenLookingForDialog}
-            handleColse={setopenLookingForDialog}
+            handleClose={setopenLookingForDialog}
             handleValue={settypeOfRelationValue}
             value = {typeOfRelationValue}
           />
         )}
+
+        {
+          openInterestDialog && <InterestsBox open={openInterestDialog} handleClose={setOpenInterestDialog} interestValue={interestValue} interestedHandle={setInterestValue} />
+        }
       </Container>
     </>
   );
