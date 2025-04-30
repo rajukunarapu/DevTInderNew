@@ -15,15 +15,14 @@ import RelationshipOptions from "./RelationshipOptions";
 import InterestsBox from "./InterestsBox";
 
 const CreateAccountForm = () => {
-
   // For firstName
-  const [firstName, setFirstName] = useState('')
+  const [firstName, setFirstName] = useState("");
 
   //For LastName
-  const [lastName, setLastName] = useState('')
+  const [lastName, setLastName] = useState("");
 
   // For Birthday
-  const [birthdayDate, setBirthdayDate] = useState('')
+  const [birthdayDate, setBirthdayDate] = useState("");
 
   // For gender
   const gender = [
@@ -57,18 +56,53 @@ const CreateAccountForm = () => {
   const [typeOfRelationValue, settypeOfRelationValue] = useState([]);
 
   //For Interest Dialog box
-  const [openInterestDialog, setOpenInterestDialog] = useState(false)
+  const [openInterestDialog, setOpenInterestDialog] = useState(false);
   // Interest state variable
-  const [interestValue, setInterestValue] = useState([])
+  const [interestValue, setInterestValue] = useState([]);
+
+  // For image
+  const [image, setImage] = useState([]);
+
+  const handleAddPhotoClick = (id) => {
+    const input = document.createElement('input')
+    input.type = "file"
+    input.accept = "image/*"
+    input.onchange = (event)=>handleFileChange(event,id)
+    input.click()
+  };
+
+  const handleFileChange = (event,id) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setImage((Prev) => {
+          // Checking for id that already exists in the array
+          const existingIndex = Prev.findIndex((img) => img.id === id);
+          if (existingIndex !== -1) {
+            //updating the image based on id
+            const updated = [...Prev];
+            updated[existingIndex] = { id: id, src: reader.result };
+            return updated;
+          } else {
+            // Adds new image
+            return [...Prev, { id: id, src: reader.result }];
+          }
+        });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   //For Debugging
-  console.log({firstName})
-  console.log({lastName})
-  console.log({genderVariable})
-  console.log({birthdayDate})
-  console.log({interestedVariable})
-  console.log({typeOfRelationValue})
-  console.log({interestValue})
+  console.log({ firstName });
+  console.log({ lastName });
+  console.log({ genderVariable });
+  console.log({ birthdayDate });
+  console.log({ interestedVariable });
+  console.log({ typeOfRelationValue });
+  console.log({ interestValue });
+  console.log({ image });
 
   return (
     <>
@@ -99,7 +133,7 @@ const CreateAccountForm = () => {
               size="small"
               type="text"
               value={firstName}
-              onChange={(e)=>setFirstName(e.target.value)}
+              onChange={(e) => setFirstName(e.target.value)}
               sx={{
                 width: 470,
                 input: { color: "white", backgroundColor: "black" },
@@ -121,7 +155,7 @@ const CreateAccountForm = () => {
               size="small"
               type="text"
               value={lastName}
-              onChange={(e)=>setLastName(e.target.value)}
+              onChange={(e) => setLastName(e.target.value)}
               sx={{
                 width: 470,
                 input: { color: "white", backgroundColor: "black" },
@@ -143,7 +177,7 @@ const CreateAccountForm = () => {
               size="small"
               type="date"
               value={birthdayDate}
-              onChange={(e)=>setBirthdayDate(e.target.value)}
+              onChange={(e) => setBirthdayDate(e.target.value)}
               sx={{
                 width: 470,
                 input: { color: "white", backgroundColor: "black" },
@@ -172,8 +206,10 @@ const CreateAccountForm = () => {
                     width: 145,
                     borderRadius: 5,
                     color: "white",
-                    border: genderVariable === item.name? "2px solid #fd267a" : "3px solid #80808080",
-                    
+                    border:
+                      genderVariable === item.name
+                        ? "2px solid #fd267a"
+                        : "3px solid #80808080",
                   }}
                 >
                   {item.name}
@@ -201,7 +237,10 @@ const CreateAccountForm = () => {
                     width: 145,
                     borderRadius: 5,
                     color: "white",
-                    border: interestedVariable === item.name? "2px solid #fd267a" : "3px solid #80808080",
+                    border:
+                      interestedVariable === item.name
+                        ? "2px solid #fd267a"
+                        : "3px solid #80808080",
                   }}
                 >
                   {item.name}
@@ -256,6 +295,17 @@ const CreateAccountForm = () => {
                       backgroundColor: "#72768836",
                     }}
                   >
+                    {image.find((img) => img.id === item.id) && (
+                      <img
+                        src={image.find((obj) => obj.id === item.id).src}
+                        alt={`uploaded ${item.id}`}
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          objectFit: "cover",
+                        }}
+                      />
+                    )}
                     <IconButton
                       size="small"
                       sx={{
@@ -266,6 +316,7 @@ const CreateAccountForm = () => {
                           "linear-gradient(to right, #fd267a, #ff6036)",
                         color: "white",
                       }}
+                      onClick={() => handleAddPhotoClick(item.id)}
                     >
                       <Add sx={{ fontWeight: "bolder" }} />
                     </IconButton>
@@ -273,6 +324,7 @@ const CreateAccountForm = () => {
                 </Grid2>
               ))}
             </Grid2>
+            
             <Typography
               variant="body1"
               textAlign={"center"}
@@ -304,7 +356,7 @@ const CreateAccountForm = () => {
         <Button
           variant="outlined"
           startIcon={<Add />}
-          onClick={()=>setOpenInterestDialog(true)}
+          onClick={() => setOpenInterestDialog(true)}
           sx={{
             textTransform: "capitalize",
             fontWeight: "bold",
@@ -312,7 +364,7 @@ const CreateAccountForm = () => {
             borderRadius: 5,
             color: "white",
             border: "3px solid #80808080",
-            mt: 2
+            mt: 2,
           }}
         >
           Add Interests
@@ -337,7 +389,7 @@ const CreateAccountForm = () => {
               color: "lightgray",
               border: "none",
               backgroundColor: "#80808080",
-              mt:6
+              mt: 6,
             }}
           >
             Continue
@@ -349,13 +401,18 @@ const CreateAccountForm = () => {
             open={setopenLookingForDialog}
             handleClose={setopenLookingForDialog}
             handleValue={settypeOfRelationValue}
-            value = {typeOfRelationValue}
+            value={typeOfRelationValue}
           />
         )}
 
-        {
-          openInterestDialog && <InterestsBox open={openInterestDialog} handleClose={setOpenInterestDialog} interestValue={interestValue} interestedHandle={setInterestValue} />
-        }
+        {openInterestDialog && (
+          <InterestsBox
+            open={openInterestDialog}
+            handleClose={setOpenInterestDialog}
+            interestValue={interestValue}
+            interestedHandle={setInterestValue}
+          />
+        )}
       </Container>
     </>
   );
