@@ -19,12 +19,12 @@ const SidebarContent = ({ profileImage, Name }) => {
                 <ListItemAvatar>
                     <Avatar component={'a'} alt={Name} src={profileImage} sx={{width:35,height:35,backgroundColor:'black',cursor:'pointer'}} />
                 </ListItemAvatar>
-                <Typography sx={{fontWeight:'bolder',color:'white',marginRight:6,ml:-1}} >{Name}</Typography>
+                <Typography sx={{width:50,fontWeight:'bolder',color:'white',marginRight:6,ml:-1}} >{Name}</Typography>
                 {
                     Icons.map((item)=>(
-                        <ListItemAvatar key={item.id} >
+                        <ListItemAvatar  key={item.id} >
                             <Avatar sizes="larg" sx={{backgroundColor:'black'}} >
-                                <IconButton sx={{color:'white'}} >
+                                <IconButton  size="small" sx={{color:'white'}} >
                                     {item.icon}
                                 </IconButton>
                             </Avatar>
@@ -34,9 +34,9 @@ const SidebarContent = ({ profileImage, Name }) => {
             </ListItem>
         </List>
         <Box>
-            <Tabs value={value} onChange={(e,newValue)=>setValue(newValue)} >
-                <Tab label='Matches' />
-                <Tab label='Messages' />
+            <Tabs value={value} onChange={(e,newValue)=>setValue(newValue)} sx={{color:'white'}} >
+                <Tab label='Matches'  sx={{color:'white'}} />
+                <Tab label='Messages' sx={{color:'white'}} />
                 
             </Tabs>
         </Box>
@@ -46,6 +46,17 @@ const SidebarContent = ({ profileImage, Name }) => {
 };
 
 export default SidebarContent;
+
+
+// const TabContent= ({children})=>{
+//     return(
+//         <>
+//             <Box  >
+
+//             </Box>
+//         </>
+//     )
+// }
 
 
 // <Stack

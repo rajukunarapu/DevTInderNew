@@ -20,7 +20,7 @@ app.use(cors({
     },
     credentials : true
 }))
-app.use(express.json()) // middleware for converting JSON objects to JS objects
+app.use(express.json({"limit":'10mb'})) // middleware for converting JSON objects to JS objects
 app.use(cookieParser())  // reading the cookies otherwise it'll throw undefined
 
 app.use('/auth', authRoutes)  // authentication

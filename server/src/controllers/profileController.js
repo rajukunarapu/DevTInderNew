@@ -37,7 +37,7 @@ exports.profileUpdateController = async (req, res) => {
     }
     const updatedProfile = await userModel.findByIdAndUpdate(
       loggedInUserId,
-      data,
+      requestBody,
       {
         runValidators: true,
         returnDocument: "after",

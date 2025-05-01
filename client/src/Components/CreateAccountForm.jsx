@@ -10,11 +10,17 @@ import {
   Grid2,
   Divider,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useState} from "react";
+import {useNavigate} from 'react-router-dom'
+import Axios from 'axios'
 import RelationshipOptions from "./RelationshipOptions";
 import InterestsBox from "./InterestsBox";
 
 const CreateAccountForm = () => {
+
+  // navigate
+  const navigate = useNavigate()
+
   // For firstName
   const [firstName, setFirstName] = useState("");
 
@@ -26,7 +32,7 @@ const CreateAccountForm = () => {
 
   // For gender
   const gender = [
-    { id: 1, name: "Male" },
+    { id: 1, name: "Men" },
     { id: 2, name: "Woman" },
     { id: 3, name: "Other" },
   ];
@@ -94,19 +100,46 @@ const CreateAccountForm = () => {
     }
   };
 
+  const handleClickContinue = async(event)=>{
+    event.preventDefault();
+    if( firstName.length >= 4 && lastName.length >= 4 && genderVariable !== '' && birthdayDate !== "" && interestedVariable !== ''&& typeOfRelationValue !== '' && interestValue !== '' && image.length === 1 ){
+      const res = await Axios.put(`${import.meta.env.VITE_SERVER_URL}/profile/update`,{
+        "firstName" : firstName,
+        "lastName": lastName,
+        "BirthDayDate": birthdayDate,
+        "gender":genderVariable,
+        "interestedIn":interestedVariable,
+        "lookingFor":typeOfRelationValue,
+        "interests":interestValue,
+        "photoURL":image
+      },
+    {
+      headers:{
+        "Content-Type":"application/json"
+      },
+      withCredentials : true
+    })
+      const data = res.data
+      console.log({data})
+      if(data.success){
+        navigate('/feed')
+      }
+    }
+  }
+
   //For Debugging
-  console.log({ firstName });
-  console.log({ lastName });
-  console.log({ genderVariable });
-  console.log({ birthdayDate });
-  console.log({ interestedVariable });
-  console.log({ typeOfRelationValue });
-  console.log({ interestValue });
-  console.log({ image });
+  // console.log({ firstName });
+  // console.log({ lastName });
+  // console.log({ genderVariable });
+  // console.log({ birthdayDate });
+  // console.log({ interestedVariable });
+  // console.log({ typeOfRelationValue });
+  // console.log({ interestValue });
+  // console.log({ image });
 
   return (
     <>
-      <Container maxWidth="md" sx={{ pt: 15 }}>
+      <Container maxWidth="md" sx={{ pt: 15}}>
         <Typography
           variant="h4"
           fontWeight={"bold"}
@@ -380,6 +413,7 @@ const CreateAccountForm = () => {
         >
           <Button
             variant="outlined"
+            onClick={handleClickContinue}
             sx={{
               textTransform: "capitalize",
               fontWeight: "bolder",

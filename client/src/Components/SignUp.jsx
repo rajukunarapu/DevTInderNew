@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import {
@@ -19,7 +19,7 @@ import AuthContext from "../context/AuthContext";
 import AppStore from "../assets/Images/appstore_image.webp";
 
 const SignUp = ({ setSignUpVisible }) => {
-  const {authCheck} = useContext(AuthContext)
+  // const {authCheck} = useContext(AuthContext)
   const navigate = useNavigate()
   // toggle the password icon
   const [showPassword, setShowPassword] = useState(false);
@@ -54,11 +54,13 @@ const SignUp = ({ setSignUpVisible }) => {
         setTimeout(async() => {
           // showing success alert for 2 seconds
           setSignUpVisible(false);
+          // await authCheck();
         }, 1000);
-        await authCheck();
-        setTimeout(()=>{
-          navigate('/onboarding')
-        },100)
+        
+        navigate('/onboarding')
+        // setTimeout(()=>{
+        //   navigate('/onboarding')
+        // },100)
       }
     }
   };

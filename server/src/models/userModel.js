@@ -42,12 +42,12 @@ const userSchema = new mongoose.Schema(
         gender: {
             type: String,
             enum :{
-                values : ["male", "female", "other"],
+                values : ["Men", "Woman", "Other"],
                 message : "{VALUE} is not a valid gender type"
             }
         },
 
-        interstedIn: {
+        interestedIn: {
             type: String,
             enum: {
                 values: ["Men", "Woman", "Everyone"],
@@ -69,12 +69,12 @@ const userSchema = new mongoose.Schema(
         //     },
         // },
         photoURL: {
-            type: String,
-            validate(value) {
-                if (!validator.isURL(value)) {
-                    throw new Error("Enter a valid image path");
-                }
-            },
+            type: [],
+            // validate(value) {
+            //     if (!validator.isURL(value)) {
+            //         throw new Error("Enter a valid image path");
+            //     }
+            // },
         },
     },
     {

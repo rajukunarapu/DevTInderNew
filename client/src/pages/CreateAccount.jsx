@@ -8,7 +8,7 @@ const CreateAccount = () => {
     <>
       <Box sx={{backgroundColor:'rgb(0 0 0 / 95%)',pt:5,pb:10}} >
 
-        <AppBar position='static' sx={{backgroundColor:'#19d22000',borderBottom:'2px solid #80808042'}} >
+        <AppBar position='fixed' sx={{backgroundColor:'#19d22000',borderBottom:'2px solid #80808042',}} >
           <Toolbar>
             <TinderLogo fill={'red'} color={"white"} />
           </Toolbar>

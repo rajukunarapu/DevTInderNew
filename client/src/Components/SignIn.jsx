@@ -1,5 +1,5 @@
 import React from "react";
-import { useState,useContext } from "react";
+import { useState} from "react";
 import {
   IconButton,
   Link,
@@ -16,10 +16,10 @@ import { Close, Visibility, VisibilityOff } from "@mui/icons-material";
 import AppStore from "../assets/Images/appstore_image.webp";
 import PlayStore from "../assets/Images/google_playstore.webp";
 import { loginUser } from "../services/authServices";
-import AuthContext from "../context/AuthContext";
+// import AuthContext from "../context/AuthContext";
 
 const SignIn = ({ setSignInVisible }) => {
-  const {authCheck} = useContext(AuthContext)
+  // const {authCheck} = useContext(AuthContext)
   //toogle visbility icon
   const [showPassword, setShowPassword] = useState(false);
   // emailId, password variables
@@ -52,13 +52,14 @@ const SignIn = ({ setSignInVisible }) => {
       console.log({ password });
       if (data.success) {
         setTimeout(async() => {
-          // showing success alert for 2 seconds
+          // showing success alert for  seconds
           setSignInVisible(false);
-          await authCheck()
         }, 1000);
-        setTimeout(()=>{
-          navigate('/feed')
-        },100)
+        // await authCheck()
+        navigate('/feed')
+        // setTimeout(()=>{
+        //   navigate('/feed')
+        // },100)
       }
     }
   };

@@ -15,8 +15,9 @@ const AuthPage = () => {
       >
         <Navbar />
         <HeroSection />
-        <Footer />
       </Box>
+
+      <Footer />
     </>
   );
 };
